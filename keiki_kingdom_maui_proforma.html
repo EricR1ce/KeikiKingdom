@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keiki Kingdom Maui — Franchise Pro Forma</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --kk-orange: #F5821E;
+    --kk-green: #4BAE4F;
+    --kk-blue: #2E9BD6;
+    --kk-pink: #E91E8C;
+    --kk-yellow: #FDD835;
+    --kk-purple: #7B1FA2;
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --border: #E8E4DC;
+    --text: #1A1A1A;
+    --muted: #6B6860;
+    --success: #2E7D32;
+    --danger: #C62828;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: #fff;
+    border-bottom: 3px solid var(--kk-orange);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left { display: flex; align-items: center; gap: 20px; }
+  .header-logo { height: 60px; width: auto; }
+  .header-title h1 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .header-title p { font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+  .header-badge {
+    background: var(--kk-orange);
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* HERO BANNER */
+  .hero {
+    background: linear-gradient(135deg, #fff8f0 0%, #fff 60%, #f0f8ff 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 24px;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  .hero-stat {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    border-top: 4px solid var(--kk-orange);
+  }
+  .hero-stat:nth-child(2) { border-top-color: var(--kk-green); }
+  .hero-stat:nth-child(3) { border-top-color: var(--kk-blue); }
+  .hero-stat .label { font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .hero-stat .value { font-family: 'Nunito', sans-serif; font-size: 28px; font-weight: 900; color: var(--text); }
+  .hero-stat .sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* MAIN CONTENT */
+  .main { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+  /* SECTION HEADERS */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    margin-top: 40px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--kk-orange);
+    flex-shrink: 0;
+  }
+  .section-head h2 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--text);
+  }
+  .section-head .tag {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #FFF3E0;
+    color: var(--kk-orange);
+  }
+
+  /* CONTROLS */
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .ctrl { display: flex; flex-direction: column; gap: 6px; }
+  .ctrl label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .ctrl label span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--kk-orange);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 4px;
+    background: #E8E4DC;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--kk-orange);
+    cursor: pointer;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  input[type=number], select {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    background: #FAFAF8;
+    color: var(--text);
+    width: 100%;
+  }
+  input[type=number]:focus, select:focus { outline: 2px solid var(--kk-orange); border-color: transparent; }
+
+  /* SCENARIO TABS */
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab-btn {
+    padding: 8px 20px;
+    border-radius: 24px;
+    border: 2px solid var(--border);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    background: #fff;
+    color: var(--muted);
+    transition: all 0.15s;
+  }
+  .tab-btn.active { background: var(--kk-green); color: #fff; border-color: var(--kk-green); }
+  .tab-btn:hover:not(.active) { border-color: var(--kk-green); color: var(--kk-green); }
+
+  /* SCENARIO CARDS */
+  .scen-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+  .scen-card {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 20px;
+    transition: border-color 0.15s;
+  }
+  .scen-card.active { border-color: var(--kk-green); background: #f6fdf6; }
+  .scen-card .sc-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .scen-card .sc-rev { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; }
+  .scen-card .sc-desc { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .scen-card .sc-net { font-size: 13px; font-weight: 700; margin-top: 6px; }
+
+  /* METRIC CARDS */
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
+  .metric-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .metric-card .m-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .metric-card .m-value { font-family: 'Nunito', sans-serif; font-size: 22px; font-weight: 900; }
+  .pos { color: var(--success); }
+  .neg { color: var(--danger); }
+
+  /* DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+  /* P&L TABLE */
+  .table-wrap { background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; padding: 12px 18px; background: #F5F3EE; font-weight: 700; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  th:not(:first-child) { text-align: right; }
+  td { padding: 10px 18px; border-bottom: 1px solid #F0EDE6; color: var(--text); }
+  td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+  tr.cat-head td { background: #F9F7F2; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 18px; border-top: 1px solid var(--border); }
+  tr.subtotal td { background: #F5F3EE; font-weight: 700; }
+  tr.total-row td { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 16px; border-top: 2px solid var(--border); background: #fff; }
+  tr:last-child td { border-bottom: none; }
+
+  /* CHART */
+  .chart-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 8px;
+  }
+  .chart-wrap { position: relative; width: 100%; height: 280px; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 12px; color: var(--muted); }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .legend-line { width: 16px; height: 2px; flex-shrink: 0; }
+
+  /* CALLOUT BOX */
+  .callout {
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout.info { background: #E8F5E9; color: #1B5E20; border-left: 4px solid var(--kk-green); }
+  .callout.warn { background: #FFF8E1; color: #E65100; border-left: 4px solid var(--kk-yellow); }
+  .callout.blue { background: #E3F2FD; color: #0D47A1; border-left: 4px solid var(--kk-blue); }
+  .callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+  /* TAGS */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .tag-pill {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1.5px solid;
+  }
+  .tag-pill.orange { background: #FFF3E0; color: var(--kk-orange); border-color: #FFB74D; }
+  .tag-pill.green  { background: #E8F5E9; color: var(--success); border-color: #81C784; }
+  .tag-pill.blue   { background: #E3F2FD; color: #1565C0; border-color: #64B5F6; }
+  .tag-pill.gray   { background: #F5F3EE; color: var(--muted); border-color: #BCAAA4; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--text);
+    color: #ccc;
+    padding: 32px 24px;
+    margin-top: 60px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 32px; justify-content: space-between; flex-wrap: wrap; }
+  .footer h4 { color: #fff; font-family: 'Nunito', sans-serif; font-weight: 800; margin-bottom: 8px; }
+  .footer p { color: #aaa; }
+
+  
+
+  @media (max-width: 640px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .scen-grid { grid-template-columns: 1fr; }
+    .header-logo { height: 44px; }
+    .header-title h1 { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <img class="header-logo" src="data:image/jpeg;base64,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hqnWmSOSaCTJaQCdxwHPyeH0L7s+yusfIHXStjiYObIu6J9KkawWG22Sm6GhgDCRhzzxc70rk0dstbSzdPKdUcuJ8vFdN+u1JUQ9DH6x58vNVevU8lVd6yolJL5JnuOT4SViKWL9shulReaqooK6kbTSyF7BIXBzcnOOAWH+Ru//AGhQet3wUk+in1j6qx6S21RefVUZrOsUz6e7U8sZIc13Uu+/I3fvtCg9bvgs+wbIrnTXSKeur6QwsOSI94k+sL7go52yNJbjaF901uqWytJbjBCmGleZKaJ55uYD7F6L8Y0NaGjkBgL9ViVvRERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERcVXamuPzmRkPRRMa8tHcZPA+NdqeSi+pOaqY/1ju0qhafXWsttLE6lfqkuwcY5dalLXBHNI4PGdi2rdS3Zrt7pYnD+aYxj2Lp9NXR10skdwljbEXFwcAeA3SRn2LgFt7ZW/NdBU0MbsSTvkb5BvnPw9KiNDdJqqWCqnr5S5sYB246/HAXRcaNjXMbEMErMrdVVXzhwpY4REDhpcCSfHzXk3VVxBGY6cjr7k/FaFfEnSHdjhbvyyODI2+Fx5KoxaW3+tqhHBKcvOAABjad27gu51BSxsy5u5dxpy/SXT54ZaTomUwGZGuy1xxkjyj8VH1btNvRqpPm1PRth3juBzHE46snKku3WtlvsBoY+L+idvuHNzyOJ9ar3NG+KV8b2lrmkgjwFf0JQROETWzHWcAMndk8ThfujdDS1skvStyBjA28crs/ymah/3VF+zPxX7+U3UGP4Gh/Zu/wC5cQi7eiZyVr/ILd+0PqfNSPp7aPdai7QU9dT0phlkawljSC3Jxnn411O03VFTpWxR11JTRTyySiMCQndHAnPDnyUP6difNe6OKNpLnStAx5QpB+UF3oUw/tTewry6NvShvBZvptEy3CQ0vq4bnsO3muObti1KHZNJbyPBuO+K6nRm1cXS4x0N0oY6d0hAEsbju+kFQgvunlfBOyaM4cw5C7X0sZGwbVkFJpLXRStMr9ZudowN30Vvs8MqFtQbXrzTXWppaO3UTY4ZXMBk3nOODjqIUgbNb8y+6ZheX708LQyTjxPgP/vWCq7ak4ahuA/tMnvFclLE1ziHjcrRpJcpqanjkpn41jv2bsKQbdtivrqpjKi3UL2OcBhoc0+vJU0Wuq+e26nq9zc6aNr93OcZCqbQ/rsH3je1Wp0t3uW/zdnYlXG1hGqF+6MV9RWRyGd2tgjG77LZEgAkkADmSow13tjslinkorXF9KVbDhxa7ETD4C7r9C0fyhNezUX+y1omMcz25rJWHi1p5MHl61AS+qelDxrPW3aLaGMrohV1udQ7mjZnrJ5csdqk+v236xneTTtoKVp5NbDvdpXjS7atbQkdLNRzgcw6ADPqUbIu30eL/VX8aK2cN1fR29/jvU56d28yOlZFe7RG1pODLA88PQVNdpr6e526GupXF0Mzd5pPPyKlVspn1lwgpYwS6R4HD2q5Oj6F1t01Q0bxh7IgXDwE8T2rgq4mRkaqzLTaz0NsmiFKMFwJIznlg7du3b9FxW0vabLpe+i00VuiqXtjD5HyPIAzyAA8S5X8t9267NRf43fFc/t1dvbR60eCOIf6AuGV6t1loZKSN748kgE7+PzWA3G9V0dVIxkmACQN3D5KXGbcLiD3djpXDxSuHxW5tG2y1zSNZcrVUUoPN8bxIB2FQUi6JdHbe8YDMdhK5otIrgw5L89oCt9Yr3a75SCqtdZFUx9e6eI8o6lsFVHQWpqvS9+hroXuNOXAVEWeD2dfpVqKKphrKSGqp3h8UzA9jh1gjIVJvFpfbpAM5adx+xV3tF2ZcYzsw4bx9wvZc5rHWVm0xF+7ZjJUuGWU8fF5+AXxtH1PHpfT76puHVUp6OnYet3h8gVbbhWVNfWSVdZM+aeV2897jkkqr1tb0Hqt3r7uNy9G9Rm13gpEu22K+TyEW+ipaSPqLgXu9vD2LXRbVtXMfvOqKZ48BhAXCIog1s5OdZV51yqic65Uv2DbG8vbHerewNPAywHl5QVKNivNuvVGKq31DZWHmOtvlCqeuh0NqSs09d4poJD0TnAPYTwI8BXbS3F2sGy/VSVDeH6wZNtB4qz65PaJqyXTENMKelZPLUF2C8kBoGPBz5ro7XWQ3C3wVtO7MczA4eLxKMdu781dtj8DHO9q9r1UyUtDJLGcOGMfUBXa0U8dRWMjkGQc+BWvO1O/kg/NaAD+47/uWTS7V7m0j51baWQZ47hc0+0lR0izpukVyBz0vcPJXs2KgIx0fefNWL0nf6bUNt+eU7HRkO3XscckFbdxDWkngBzUP7Frr83u8tukf3FQ3uR/SHEfipE19cvorSlbUg4eWdGzyu4LSKOvbPRNqncsn5b1QauidDWGnHPA+e5cPfNqdXHWzQ2yhpzExxa2SUlxdjrwCMLXN2qX8HJpKA/8jv8AuXBcScnmizmTSO4vcXCTHVgeSvkdhoGtAMefmfNSja9qs0lQyKstUe6443onkEegqUY3B7GvHJwyFWOiOKuL+8rK2x2/baZ/PehYfYFdNGq+etp3Ondkg4+WByVS0gooaSdrYRgEfdZCIisagUREREREREREREREREPJRhU8Kqb7x3aVJ55KMKn9am+8d2lZl+J3ucHxHwUzZfaO7F5lfFKZW0UNPIRiIHdA6skn8V9osjirZIqaSnbueWk//OcD6nPyU86MOeHnhnvRbvQlv+d177pK3MUBMcGet38p3o5etc9WOLYTg7uSGl/8wE4LvRzUn2mlp6K2wU1LjoWMAaR1+P081pX4bWZj3PuL9ur6reo42n6HA7Soe8VBAEQ47SspaHU9qtgs1xqvo+m6boHu3+jGc4PHK3y1uqe9u4+bv7CtgG9QsL3NeNU4Vdl9wfwzPKvgL7h/hmeVSLty2CsOKaT4T4KwNks9qgpqWqit9MyfomnpGxgHOOeVxnyg+9Om86HulSDav4spfuWdgUffKD706bzodhXHB7Vqwi+OLqCYk/4lQQiIppY8u62O6hNo1CymmfinqO4dk8Bnr9B4+tcpqTvhuODn90ye8VhRSOikbIw4c05C+6yUT1UszW7oe4uA8C8mx6shcOKk5q8zULKd29h2dh8l+0P67B943tVorJUMpdH0tVIcMhoxI4+INyqu0P67B943tVjLpI6PZNO9vP6LPuLkrRlzQrfoQzXbI3mQqq6iuM13vtbcp3b0lRM6Q+k8PYsBF7ULQ+ugY7k6RoPrUhsaF/Z4aymhw0bGjuAUxbINlVFd6EXfUDZJInH83AHboPlUg3DZBoargMbLY+mdjAkhmcCPWSF0+io2R6TtjWDANO13pIye1eWt9VWzSNnFyufSujc8RsZG3LnOKhjNK92wrAZb7drhV6zJXazjsDSR2AAf3muN0Vsetmnr2bjNXPrgx2YWPjA3R1Z8Kk9Q/Dt7sLqjcks9wjiz+nlp9ik3TV8oNQ2uO4257nQP5bzcEcM/ivyZsmcvXleqe6CQT3Frsu2Anq4clXzbmMbR67xxxe4Fw67rbt/8jVn3UXuhcKtVtfuUXwjwWE3T32X4j4qwFl2X6Uuuk7dUPppoKqekje6WOZ2d4tBJwcjmoZ1tp+fTOoqi0zP6QR4dHJjG+w8irOaI7zrN5jD7gUM/KNa0auo3Ad06kGf8RVZsdxqH174ZHEtOd/DCs18t1OygZNG0Bwxu45Ci9WQ2FXQV2hKenkkDpaWR8WM8cA5HscFW9S98nWST57URbx6P84cePDFJ6Txh1CXHgR5KM0YkLa4AcQfP7LD29XN1Xq1lCHZjpIQMZ5OdxPswo7XUbVXF2v7sT/vseoBcusOq3F0zj1qQrnl9S8nmut2a6T+s93Ec5c2lj7qQjrA/9wpYvOyzTFXb3RUdM6jqA383K15PHxg81rtgMDGWKqmAG85zRn1n8VJim6akiEIyM5CslHQQinbrNBJG35qpN2oKi2XKot9U3dmgeWPHjCxV3G26FkWvqlzAB0kTHO8uFw6gJ4+jkc0cFVqmIRSuYOBVgdh9yfWaXfTyOy6B4xx6j/5BWi26n99beP6k+8v35PTz0VbHx4tB9Tj8V8bdXfv1QN8FOT/qK6b+8m0Enjq+IWoaJuMlTC48vso6RF7SRj5pFKBg7xa7x9YWaRxOkDi3/EZ7wPutNfI1haDxOO4n7LIsNZJQXanqozh0bwR6CpB2zXqOpt1so6d+WTt+cOx4Mdz+KjDlxCya+qkq5Iy97nCOMMbvdQHV5FMU11MVtlpeJIx2Hf4d6iqi2iS4R1PAA57Ru8e5YyL1pGCSpjY79Eu7ryLzcMOI8BUOYnCMScCSPpjzUqJGl5ZxAB+ufJfVPnp48c94KyOnHb1gt7j/APWj90KuVu/jCmzy6VufWrE6Vdvact7v7OzsV80Md+jKOseCpelg/VjPUVs0RFc1U0REREREREREREREREPJRhU/rU33ju0qTzyUYVQxVzj+sd2lZl+J3ucHxHwUzZfaO7F5r4ikZKwPjcHNPWvtbGioxNomjrGNG/E+QOIHNu+VmtrsrrhRVM0f/aINOOYOc+GfkpieoEUjGnc7K1pAIIIyCuj0RdzFILPVPyMZpXk8x1s9HV4lzq+XtJwWuLHtIcxw5tI5ELq0U0hfZawOd7N2xw+/aPDIXxXUgqY8DeNylVa3VPe3cfN39hWPpe9NudA7piG1UAxO0exw8RUf6g2j1VSayhhoIPmsgdEHOcd7ByM+Bf0bARO0PjOQdoPUoGht9RVSFsTclu/+lR8F90/8Ozyr4X1G7cka7GcHkpI7lq9Uxz4HsbvII7lZG1/xbS/ct7Ao9+UJ3qUvnQ7CvHTu0id1TTUVVQRNh7mPfY85HVnivf5QfejTH+1t90rliYWytBWHaS0c1HRyxzNwdXKgdbqzWqW6WSudA0OkpAZ8dZaMAj8fQtKpO2BMZJeKqKRoc18TmkHrGApKoeWM1gsusVKyqq+hfuIPgoxRdLtJ087TmqKila0imkPSQHHDdPV6OS5pejXBwBCjqmnfTSuifvBwvah/XYPvG9qst81NZs2NI0ZdLbS0Dx7nBVpof12D7xvarUaYAOm7eDyNOzsXBXbC1XnQpxbHI4cCFSx7Sx7mO5tJBSJ5jlZI3m1wcPQut2u6cl03ratp+jIpp3mendjgWuOceg8FyCkGOD2gjiv7MoqqOupWTs2h4z9eH2Vudkt8pbzo+k6GQF8DNxzc8QOr4ehcp8p8/wCxtEM86sdhUGaU1TetM1fzm01ZiJ/SYRlrvKFsNa6+1Dq6mhprtLB0MLt9rIo90Z8JXEykcyUOG5Z1RaE1VDdo54yDE12d+3HLHNcorU7BhjQkHlHutVVjyVrNhTcaDg8bv+lq/a7/AKhdP4kH/wAWAf8AsfBRPt2Odo1Z91F7oXCrt9uJztIr/EyP3AuIWkWv3KL4R4L+R7p77L8R8VbbRHebZvMYfcCgHbfdmXTXlQ2JwdHSMbACDwJHE+0r2G1XUMOnaez0cdNTCGBsInaCX4AxkZ4Arg5HvkkdJI4ue45cSeJKhrPZZaaqfUS444Had6mbveYqmlZTxZ4ZPYNy+VOfyeLXJHapLk9pDZHPDCRz/RH/AElQaxjpHtYxpc5xwAOsq02y6jloND26mljEZawkDHPJzn0r80qqAylEXFx7h/QmitOX1Rl4NHef6VCu2CmfTbQLiXDAlLZG+MFo/HK5BTF8oKxSPbS3+Bhc1g6GfA5Dm0/godWL1sZZO7r2rtuURjqXA8dv1Ux7ALrEI6m2SPAkcA5gJ5kZ/A+xS64gAknAHMqpFtrqu3VbKqjmdFKw5Dguju20TVVzoXUc9eGROG6/omBpcPGRxXfBcmMiDXDaFKUt4jjhDXg5C8tqF0ju+tq+qgfvwtcImOHIhoxlcwi+4Y3SytiYMuccBRL3GR5dxKgZHumkLuJKmj5PlO5tvragjuTutB8pJ/ALD25uzf6IeCm/6iu62ZWc2fStPE9m7LKOkcDz4jh7AFwO252dTU7fBTDtK99JW9Ha9T4QtY0Ti6OpYw8G/ZcCuusVsFw0Bd5WtzLSvjlbw6hvZ9i5FS3scpWz6cuMUg7iYhh8mD8VVtGacVM8sTuLCPqQrZpBOaeGOQcHg9xUSIsm60j6G5VNHICHwyOYR5CsZV57Cxxa7eFOMcHtDhuK6nZlavpTUjA5uYogXv4cOH/nC5ytYY62dh5tkcPapY2JW4xWuquD24Mrgxp8Q4ntCi6/N3L3XM/m1Dx7SrJdaT0a2UwO85J+eD4KBttV6RcKgjcMAfLIWPSO3aqF3geD7VYrSZzp2j8UePaVXFh3Xtd4DlWF0DMZ9LUkp6973ipXQs7Jh8P3UbpYNsR7fst6iIrwqciIiIiIiIiIiIiIiIh5KMa0FtZOHDB6R3apOXhLRUcri6Slhe48yWDKqmlmjsl9gZHG8NLTnaM8F3UNWKZ5cRnKjNddoGJk+jooZBlrnStI/wCcrdfRlvyD8zh4f0QsiGKKCMRwxsjYOTWjAC5NEtFZbH0pleHa+Nw5Z59q+6+ubU6uqMYUc3SjloKx9PKDwPcu/nDwrEc5rRlxAHhKkuuoaWtYG1MLX45HkR6V4UtmtlM8PjpGb45Od3RHrVdqPw0MlY5zJQ2InOMbR1cvnn5LsZecRgFuXLltM2ivkqXXHuqaHonsw4YMwI8HgzxyognjdFM+N/6THFp8oVmFqZtN2GaofPLaqV8khy5xZzK1C00kNrpm00WdVo2ZOSvW03wUcskkrc62N3Uq9IrCfVjT32PR/swn1Y0/9j0f7MKT9IHJTv8AzCD9s9ygW1RvluMEbAS5zwB5TwUjfKB4aPpW/wBqb7pXbU2nbHTVDaiC100crSC1wZyKzbhQ0dwpjTV1NFUQniWSNDgvPph0gdjcqZpRUi9BwYNXLcbfmqjKT/k/D9/Zj/Qd2BSg7Q+k3HjYqT0NI/FbS12i2Wtm7b6GCmHI9GwAn0817TVQkZqgKiWjRuWhqRO94OM7utcptl02L3pl1VAzNXRAyMwOLm/yh+KrueBweBVwSAQQRkHmFo59IaYnldJLZKJz3HLiI8ZPoXzBU9ENUhdN60e/MJRLG7VduPXyVYKH9dg+8b2q1Olu9u3ebs7Fi0mkdM0kwmp7LSMeOR3M49a3bWhrQ1oAAGAB1L4qJxKRgLpsdodbGPa52dYrl9pGi7frKymkqcRVUeXU84HFjvxB6wqu6u0pe9L1zqW60b4257iZozHIPCCrlrwraSlrYHQVlPFUROGCyRgcD6Cv2CpdFs3haPo/pXU2f9PGvGeB4dh4KjyK2ddss0NVymR1jjic45PRPc0eoFecGybQsTgfoYSY6nyuP4rr9OZyKvI/Eag1cmJ+fl5qqUcckrxHExz3ngGtGSVbLYxTTUuhaWOeGSGTOS17SDyC31o01YLQ0C3WijpscnMiG96+a2wGBgLlqKjpcABUvSfSgXsMYyPVDSTtOScqs226ORm0a4OexzQ9sZaSOY3RxC4pXAudntN0LTcbbSVZb+iZomuI9awfqhpb/h+2/wCXb8FaKLSeKCnZE6M5aAPoserdGJZ6h8rZBhxJ3c1U1ZFDQ1ldMIaOlmnkPJsbCSrWM0nphjstsFtB82Z8FsqWio6Ru7S0sEA8EcYb2L2l0uZj9OPb1leMWiL8/qSbOoKHdmWy2qZVR3PUEQja3iyA8z5VNLGtY0NaAGgYAHUv1FUqytlrJTLKcnw7FbqOiio4hFEMDx7V4XGjprhRS0VXE2WCZpa9ruRCr/r/AGeXOwVElTQxSVltJy17Rl0Y8Dh+KsOhAIIIBB6iouppWTjDt6+ayijqm4dvG4qn/XhFaC7aM0xdJDJV2inMh5uYNwn1YWvh2a6OjfvfRe/4nSuI7VFm1SZ2OCg3WKbOxwVdKannqZRFTxPleeADRlS5sv2czRTx3a9xbm7xjhcOJ8vi7VJ9rslotbAygt9PTgdbGDPr5rYLtpbe2E6zjkqRorSyndrvOT3IBgYChHbMZDrE72d0U7N3h5VNyxa+3UFe0NraOCoA5dJGHY9a8rxbnXCm6FrsHIKtNqrhQ1HSuGdmFWZTNsVa4afqHOaQDMAMjn3IXUQ6csML9+O0UQd4ehBWzjjZG3djY1jfABgKOsdhfbZXSPeDkY2dq77xemV8bY2NIwc7VC22W2/NNTisYzDKuMOJ/pDgfwXExNMkjWDrOFZmuoaKuYGVlLDUNHISMDsetY0FissDw+G1UcbhyLYW57FyVmipqKt0weA0nJGPqumk0kEFKIizLgMZz9FjaJofo/TFFAW4cY99w8buP4qDNZM6PVdzaRj90vPtVjRwGAtdX2Kz18plrLbSzSHm90YyfSpW92l1xhaxjg3VKjbPc20ErnvGchVtU/bMiXaNoyRji/3ithBpuwwODorRRgg5B6IHtWzjYyNgZG1rWjkAMALysVlfbNcveDrY3dWfNet5u7LhqBrcaue9fSIisKgkRERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERF/9k=" alt="Keiki Kingdom Logo">
+      <div class="header-title">
+        <h1>Keiki Kingdom Maui — Franchise Pro Forma</h1>
+        <p>Kahului / Wailuku · 15,000+ sq ft · Interactive Financial Model</p>
+      </div>
+    </div>
+    <span class="header-badge">Confidential Draft</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner" id="heroStats"></div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+
+  
+
+  <!-- CONTROLS -->
+  <div class="section-head">
+    <div class="section-dot"></div>
+    <h2>Model Assumptions</h2>
+    <span class="tag">All figures adjust in real time</span>
+  </div>
+
+  <div class="callout blue">
+    <span class="callout-icon">&#9432;</span>
+    <div>All children are accompanied by a minimum of 1 paying adult. 60% of visits include both parents, resulting in <strong>1.6 adults per child</strong> guaranteed. Visitor counts below refer to <strong>children only</strong> — adults are additive to both headcount and revenue.</div>
+  </div>
+
+  <div class="controls-grid">
+    <div class="ctrl">
+      <label>Monthly rent <span id="rentVal">$35,000</span></label>
+      <input type="range" id="rent" min="20000" max="60000" step="500" value="35000" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>Royalty rate (% of gross) <span id="royaltyVal">5.0%</span></label>
+      <input type="range" id="royalty" min="0" max="15" step="0.5" value="5" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>3-hour session mix <span id="mix3Val">40%</span></label>
+      <input type="range" id="mix3" min="0" max="80" step="5" value="40" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>Both-parent rate <span id="twoParentVal">60%</span></label>
+      <input type="range" id="twoParent" min="0" max="100" step="5" value="60" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>Socks purchase rate <span id="socksRateVal">90%</span></label>
+      <input type="range" id="socksRate" min="50" max="100" step="5" value="90" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>Loan amount</label>
+      <input type="number" id="loanAmt" value="850000" step="10000" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>Interest rate (%)</label>
+      <input type="number" id="loanRate" value="7.5" step="0.25" oninput="update()">
+    </div>
+    <div class="ctrl">
+      <label>Loan term</label>
+      <select id="loanTerm" onchange="update()">
+        <option value="10">10 years (SBA 7a)</option>
+        <option value="20" selected>20 years (SBA 504)</option>
+        <option value="5">5 years (conventional)</option>
+        <option value="7">7 years (conventional)</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label>Utilities/mo <span id="utilVal">$9,000</span></label>
+      <input type="range" id="util" min="4000" max="15000" step="250" value="9000" oninput="update()">
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-green);"></div>
+    <h2>Revenue Scenarios</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="setScenario('cons',this)">Conservative</button>
+    <button class="tab-btn" onclick="setScenario('mod',this)">Moderate</button>
+    <button class="tab-btn" onclick="setScenario('opt',this)">Optimistic</button>
+  </div>
+
+  <div class="scen-grid" id="scenCards"></div>
+  <div class="metrics-grid" id="metricsRow"></div>
+
+  <hr class="divider">
+
+  <!-- P&L -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-blue);"></div>
+    <h2>Monthly Profit & Loss</h2>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Line Item</th><th>Monthly</th><th>Annual</th></tr></thead>
+      <tbody id="plBody"></tbody>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PER VISIT -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-pink);"></div>
+    <h2>Per-Visit Economics</h2>
+  </div>
+  <div class="callout info">
+    <span class="callout-icon">&#9733;</span>
+    <div id="perVisitNote">Loading...</div>
+  </div>
+  <div class="metrics-grid" id="sessionMetrics"></div>
+
+  <hr class="divider">
+
+  <!-- SOCKS SPOTLIGHT -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-yellow);"></div>
+    <h2>Grip Socks — High-Margin Revenue Line</h2>
+  </div>
+  <div class="callout warn">
+    <span class="callout-icon">&#9889;</span>
+    <div id="socksNote">Loading...</div>
+  </div>
+  <div class="metrics-grid" id="socksMetrics"></div>
+
+  <hr class="divider">
+
+  <!-- CHART -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-orange);"></div>
+    <h2>Year 1 Revenue Forecast — All Scenarios</h2>
+  </div>
+  <div class="chart-card">
+    <div class="chart-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#D3D1C7;"></span>Conservative</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#4BAE4F;"></span>Moderate</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#2E9BD6;"></span>Optimistic</span>
+      <span class="legend-item"><span class="legend-line" style="background:#E91E8C;"></span>Expenses (active scenario)</span>
+    </div>
+    <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+    <p style="font-size:12px;color:var(--muted);margin-top:10px;">Flat model — seasonality not applied. Maui tourism peaks (Dec–Apr) would lift Q1/Q4 above these figures.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- REVENUE MIX -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-purple);"></div>
+    <h2>Revenue Mix Breakdown</h2>
+  </div>
+  <div class="chart-card">
+    <div style="position:relative;width:100%;height:240px;"><canvas id="mixChart"></canvas></div>
+    <div id="mixLegend" style="display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:13px;color:var(--muted);"></div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- BREAK-EVEN -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--kk-orange);"></div>
+    <h2>Break-Even Analysis</h2>
+  </div>
+  <div class="metrics-grid" id="beMetrics"></div>
+  <div class="callout blue" style="margin-top:12px;">
+    <span class="callout-icon">&#9650;</span>
+    <div id="beNote">Loading...</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ASSUMPTIONS -->
+  <div class="section-head">
+    <div class="section-dot" style="background:var(--muted);"></div>
+    <h2>Key Assumptions & Notes</h2>
+  </div>
+  <div style="background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px;font-size:14px;color:var(--muted);line-height:1.9;">
+    All children accompanied by minimum 1 paying adult &middot; 60% of visits = both parents (1.6 adults/child) &middot; Child admission: 60% at $22 (2hr), 40% at $32 (3hr) &middot; Adult admission: $5 flat regardless of session length &middot; Grip socks: $3/pair, required for all, 90% purchase rate (10% bring own) &middot; Retail / toy boutique: 7.5% of admission revenue &middot; Birthday party rooms: 2 rooms &times; 2 bookings/weekend &times; ~4 weekends &times; $350/booking &middot; Staffing: 7 staff/day &times; $18/hr &times; 8hr shifts &times; 30 days &middot; Utilities: $9,000/mo (Hawaii grid ~$0.43/kWh, full facility AC) &middot; Marketing: $3,000/mo including Maui Braces cross-referral program &middot; Insurance: $2,200/mo &middot; Supplies: $1,500/mo &middot; Miscellaneous / admin: $2,000/mo
+  </div>
+  <div class="tags" style="margin-top:16px;">
+    <span class="tag-pill orange">Kahului / Wailuku · 15,000+ sq ft</span>
+    <span class="tag-pill green">Maui Braces referral pipeline (100 patients/day)</span>
+    <span class="tag-pill green">Socks required for all — near-pure margin</span>
+    <span class="tag-pill blue">COO-level management experience</span>
+    <span class="tag-pill gray">Franchise royalty: adjustable (default 5%)</span>
+    <span class="tag-pill gray">Rent: adjustable (default $35K/mo)</span>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <h4>Keiki Kingdom Maui</h4>
+      <p>Franchise Pro Forma — Confidential Draft<br>Kahului / Wailuku, Maui, Hawaii<br>Prepared for franchise discussion purposes only</p>
+    </div>
+    <div>
+      <h4>Pricing Reference (Oahu locations)</h4>
+      <p>Child 2hr: $22 &nbsp;|&nbsp; Child 3hr: $32<br>Adult (14+): $5 flat &nbsp;|&nbsp; Grip socks: $3<br>Source: keikikingdom.com/honolulu/pricing</p>
+    </div>
+    <div>
+      <h4>Disclaimer</h4>
+      <p>All projections are estimates for planning purposes.<br>Actual results may vary based on market conditions,<br>negotiated lease terms, and franchise agreement.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const SCENARIOS = {
+  cons: { label: 'Conservative', visitors: 88,  desc: '75–100 children/day' },
+  mod:  { label: 'Moderate',     visitors: 125, desc: '100–150 children/day' },
+  opt:  { label: 'Optimistic',   visitors: 175, desc: '150–200 children/day' }
+};
+
+let currentScenario = 'cons';
+let revenueChart = null;
+let mixChart = null;
+
+const fmt  = n => '$' + Math.round(n).toLocaleString();
+const fpct = n => (Math.round(n * 10) / 10) + '%';
+
+function apc() {
+  return 1 + parseFloat(document.getElementById('twoParent').value) / 100;
+}
+
+function calcMonthly(children) {
+  const days      = 30;
+  const adultsPC  = apc();
+  const mix3      = parseFloat(document.getElementById('mix3').value) / 100;
+  const sRate     = parseFloat(document.getElementById('socksRate').value) / 100;
+  const royPct    = parseFloat(document.getElementById('royalty').value) / 100;
+  const rent      = parseFloat(document.getElementById('rent').value);
+  const util      = parseFloat(document.getElementById('util').value);
+  const loanAmt   = parseFloat(document.getElementById('loanAmt').value) || 850000;
+  const loanR     = parseFloat(document.getElementById('loanRate').value) / 100 / 12;
+  const loanMo    = parseInt(document.getElementById('loanTerm').value) * 12;
+
+  const child2    = children * (1 - mix3) * 22 * days;
+  const child3    = children * mix3 * 32 * days;
+  const childAdm  = child2 + child3;
+  const adultAdm  = children * adultsPC * 5 * days;
+  const socksC    = children * 3 * sRate * days;
+  const socksA    = children * adultsPC * 3 * sRate * days;
+  const socksRev  = socksC + socksA;
+  const retail    = (childAdm + adultAdm) * 0.075;
+  const parties   = 2 * 2 * 4 * 350;
+  const totalRev  = childAdm + adultAdm + socksRev + retail + parties;
+
+  const debt = loanR === 0 ? loanAmt / loanMo
+    : loanAmt * loanR * Math.pow(1 + loanR, loanMo) / (Math.pow(1 + loanR, loanMo) - 1);
+
+  const staff   = 7 * 18 * 8 * days;
+  const royalty = totalRev * royPct;
+  const mktg    = 3000;
+  const ins     = 2200;
+  const sup     = 1500;
+  const misc    = 2000;
+  const totalExp = rent + staff + royalty + mktg + util + ins + sup + misc + debt;
+  const net      = totalRev - totalExp;
+
+  return { child2, child3, childAdm, adultAdm, socksC, socksA, socksRev, retail, parties, totalRev,
+           rent, staff, royalty, mktg, util, ins, sup, misc, debt, totalExp, net, adultsPC };
+}
+
+function setScenario(s, el) {
+  currentScenario = s;
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  update();
+}
+
+function update() {
+  document.getElementById('rentVal').textContent     = fmt(document.getElementById('rent').value);
+  document.getElementById('royaltyVal').textContent  = parseFloat(document.getElementById('royalty').value).toFixed(1) + '%';
+  document.getElementById('mix3Val').textContent     = document.getElementById('mix3').value + '%';
+  document.getElementById('twoParentVal').textContent = document.getElementById('twoParent').value + '%';
+  document.getElementById('socksRateVal').textContent = document.getElementById('socksRate').value + '%';
+  document.getElementById('utilVal').textContent     = fmt(document.getElementById('util').value);
+
+  const sc  = SCENARIOS[currentScenario];
+  const d   = calcMonthly(sc.visitors);
+  const adultsPC = apc();
+  const mix3 = parseFloat(document.getElementById('mix3').value) / 100;
+  const sRate = parseFloat(document.getElementById('socksRate').value) / 100;
+  const royPct = parseFloat(document.getElementById('royalty').value) / 100;
+
+  // HERO
+  document.getElementById('heroStats').innerHTML = `
+    <div class="hero-stat">
+      <div class="label">Active scenario revenue</div>
+      <div class="value">${fmt(d.totalRev)}<span style="font-size:16px;font-weight:600;">/mo</span></div>
+      <div class="sub">${fmt(d.totalRev*12)} projected annually</div>
+    </div>
+    <div class="hero-stat">
+      <div class="label">Net income</div>
+      <div class="value" style="color:${d.net>=0?'var(--success)':'var(--danger)'}">${fmt(d.net)}<span style="font-size:16px;font-weight:600;">/mo</span></div>
+      <div class="sub">${fmt(d.net*12)} annually · ${fpct(d.net/d.totalRev*100)} margin</div>
+    </div>
+    <div class="hero-stat">
+      <div class="label">Daily headcount</div>
+      <div class="value">${Math.round(sc.visitors * (1 + adultsPC))}</div>
+      <div class="sub">${sc.visitors} children + ${Math.round(sc.visitors * adultsPC)} adults</div>
+    </div>
+  `;
+
+  // SCENARIO CARDS
+  document.getElementById('scenCards').innerHTML = Object.entries(SCENARIOS).map(([k,s]) => {
+    const sd = calcMonthly(s.visitors);
+    return `<div class="scen-card ${k===currentScenario?'active':''}">
+      <div class="sc-label">${s.label}</div>
+      <div class="sc-rev">${fmt(sd.totalRev)}<span style="font-size:14px;font-weight:400;">/mo</span></div>
+      <div class="sc-desc">${s.desc}</div>
+      <div class="sc-net" style="color:${sd.net>=0?'var(--success)':'var(--danger)'}">${fmt(sd.net)}/mo net</div>
+    </div>`;
+  }).join('');
+
+  // METRICS
+  document.getElementById('metricsRow').innerHTML = `
+    <div class="metric-card"><div class="m-label">Monthly revenue</div><div class="m-value">${fmt(d.totalRev)}</div></div>
+    <div class="metric-card"><div class="m-label">Monthly expenses</div><div class="m-value">${fmt(d.totalExp)}</div></div>
+    <div class="metric-card"><div class="m-label">Net income/mo</div><div class="m-value ${d.net>=0?'pos':'neg'}">${fmt(d.net)}</div></div>
+    <div class="metric-card"><div class="m-label">Net margin</div><div class="m-value ${d.net>=0?'pos':'neg'}">${fpct(d.net/d.totalRev*100)}</div></div>
+    <div class="metric-card"><div class="m-label">Annual revenue</div><div class="m-value">${fmt(d.totalRev*12)}</div></div>
+    <div class="metric-card"><div class="m-label">Annual net income</div><div class="m-value ${d.net>=0?'pos':'neg'}">${fmt(d.net*12)}</div></div>
+  `;
+
+  // PER-VISIT
+  const blendedChild  = (1-mix3)*22 + mix3*32;
+  const adultRev      = adultsPC * 5;
+  const socksGroup    = (1 + adultsPC) * 3 * sRate;
+  const retailGroup   = (blendedChild + adultRev) * 0.075;
+  const totalGroup    = blendedChild + adultRev + socksGroup + retailGroup;
+  document.getElementById('perVisitNote').innerHTML =
+    `Every child visit generates <strong>${fmt(totalGroup)}</strong> in total revenue when accounting for ${adultsPC.toFixed(1)} accompanying adults, socks for all, and retail. This is the number to optimize — not the sticker admission price alone.`;
+  document.getElementById('sessionMetrics').innerHTML = `
+    <div class="metric-card"><div class="m-label">Blended child admission</div><div class="m-value">${fmt(blendedChild)}</div></div>
+    <div class="metric-card"><div class="m-label">Adult admission (${adultsPC.toFixed(1)}x)</div><div class="m-value">${fmt(adultRev)}</div></div>
+    <div class="metric-card"><div class="m-label">Socks — whole group</div><div class="m-value">${fmt(socksGroup)}</div></div>
+    <div class="metric-card"><div class="m-label">Retail per visit</div><div class="m-value">${fmt(retailGroup)}</div></div>
+    <div class="metric-card"><div class="m-label">Total per child visit</div><div class="m-value" style="color:var(--kk-orange);font-family:'Nunito',sans-serif;">${fmt(totalGroup)}</div></div>
+    <div class="metric-card"><div class="m-label">Adults per child</div><div class="m-value">${adultsPC.toFixed(1)}</div></div>
+  `;
+
+  // SOCKS
+  const dailyPeople = sc.visitors * (1 + adultsPC);
+  const monthlyPairs = Math.round(dailyPeople * sRate * 30);
+  document.getElementById('socksNote').innerHTML =
+    `At $3/pair with ${document.getElementById('socksRate').value}% purchase rate across all <strong>${Math.round(dailyPeople)}</strong> daily visitors, socks generate <strong>${fmt(d.socksRev)}/mo</strong> — <strong>${fmt(d.socksRev*12)}</strong> annually. Cost of goods is minimal, making this one of the highest-margin lines in the business.`;
+  document.getElementById('socksMetrics').innerHTML = `
+    <div class="metric-card"><div class="m-label">Socks revenue/mo</div><div class="m-value pos">${fmt(d.socksRev)}</div></div>
+    <div class="metric-card"><div class="m-label">Children socks/mo</div><div class="m-value">${fmt(d.socksC)}</div></div>
+    <div class="metric-card"><div class="m-label">Adult socks/mo</div><div class="m-value">${fmt(d.socksA)}</div></div>
+    <div class="metric-card"><div class="m-label">Pairs sold/mo</div><div class="m-value">${monthlyPairs.toLocaleString()}</div></div>
+    <div class="metric-card"><div class="m-label">Annual socks revenue</div><div class="m-value pos">${fmt(d.socksRev*12)}</div></div>
+    <div class="metric-card"><div class="m-label">% of total revenue</div><div class="m-value">${fpct(d.socksRev/d.totalRev*100)}</div></div>
+  `;
+
+  // P&L
+  const mix3pct = document.getElementById('mix3').value;
+  const mix2pct = 100 - parseInt(mix3pct);
+  const royLabel = parseFloat(document.getElementById('royalty').value).toFixed(1);
+  const rows = [
+    { cat: 'REVENUE' },
+    { label: `Child admission — 2hr @ $22 (${mix2pct}% of children)`, val: d.child2 },
+    { label: `Child admission — 3hr @ $32 (${mix3pct}% of children)`, val: d.child3 },
+    { label: `Adult admission @ $5 (${adultsPC.toFixed(1)} adults guaranteed per child)`, val: d.adultAdm },
+    { label: `Grip socks — children @ $3 (${document.getElementById('socksRate').value}% rate)`, val: d.socksC },
+    { label: `Grip socks — adults @ $3 (${document.getElementById('socksRate').value}% rate)`, val: d.socksA },
+    { label: 'Retail / toy boutique (7.5% of admission)', val: d.retail },
+    { label: 'Birthday party rooms (2 rooms × 2 bookings/weekend)', val: d.parties },
+    { sub: 'Total Revenue', val: d.totalRev },
+    { cat: 'EXPENSES' },
+    { label: 'Rent', val: d.rent },
+    { label: 'Staffing (7 staff × $18/hr × 8hr × 30 days)', val: d.staff },
+    { label: `Royalty (${royLabel}% of gross revenue)`, val: d.royalty },
+    { label: 'Marketing (incl. Maui Braces cross-referral)', val: d.mktg },
+    { label: 'Utilities / full facility AC (Hawaii ~$0.43/kWh)', val: d.util },
+    { label: 'Insurance', val: d.ins },
+    { label: 'Supplies / consumables', val: d.sup },
+    { label: 'Miscellaneous / admin', val: d.misc },
+    { label: 'Debt service (loan repayment)', val: d.debt },
+    { sub: 'Total Expenses', val: d.totalExp },
+    { total: 'Net Income', val: d.net }
+  ];
+  document.getElementById('plBody').innerHTML = rows.map(r => {
+    if (r.cat) return `<tr class="cat-head"><td colspan="3">${r.cat}</td></tr>`;
+    if (r.sub) return `<tr class="subtotal"><td>${r.sub}</td><td>${fmt(r.val)}</td><td>${fmt(r.val*12)}</td></tr>`;
+    if (r.total !== undefined) return `<tr class="total-row"><td>${r.total}</td><td style="color:${r.val>=0?'var(--success)':'var(--danger)'}">${fmt(r.val)}</td><td style="color:${r.val>=0?'var(--success)':'var(--danger)'}">${fmt(r.val*12)}</td></tr>`;
+    return `<tr><td style="font-size:13px;">${r.label}</td><td style="color:var(--muted)">(${fmt(r.val)})</td><td style="color:var(--muted)">(${fmt(r.val*12)})</td></tr>`;
+  }).join('');
+
+  // BAR CHART
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const cR = Math.round(calcMonthly(SCENARIOS.cons.visitors).totalRev);
+  const mR = Math.round(calcMonthly(SCENARIOS.mod.visitors).totalRev);
+  const oR = Math.round(calcMonthly(SCENARIOS.opt.visitors).totalRev);
+  const exp = Math.round(d.totalExp);
+  if (revenueChart) revenueChart.destroy();
+  revenueChart = new Chart(document.getElementById('revenueChart'), {
+    data: {
+      labels: months,
+      datasets: [
+        { type:'bar',  label:'Conservative', data:months.map(()=>cR), backgroundColor:'#D3D1C7', borderRadius:4 },
+        { type:'bar',  label:'Moderate',     data:months.map(()=>mR), backgroundColor:'#4BAE4F', borderRadius:4 },
+        { type:'bar',  label:'Optimistic',   data:months.map(()=>oR), backgroundColor:'#2E9BD6', borderRadius:4 },
+        { type:'line', label:'Expenses',      data:months.map(()=>exp), borderColor:'#E91E8C', backgroundColor:'transparent', borderDash:[6,3], pointRadius:0, borderWidth:2 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}} },
+      scales:{
+        x:{ticks:{font:{size:11}}, grid:{display:false}},
+        y:{ticks:{callback:v=>'$'+Math.round(v/1000)+'K', font:{size:11}}, grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }
+  });
+
+  // DONUT
+  const mixData   = [Math.round(d.child2), Math.round(d.child3), Math.round(d.adultAdm), Math.round(d.socksC), Math.round(d.socksA), Math.round(d.retail), Math.round(d.parties)];
+  const mixLabels = ['Child 2hr','Child 3hr','Adult admission','Socks (children)','Socks (adults)','Retail','Party rooms'];
+  const mixColors = ['#4BAE4F','#1B5E20','#2E9BD6','#F5821E','#FDD835','#7B1FA2','#E91E8C'];
+  const mixTotal  = mixData.reduce((a,b)=>a+b,0);
+  if (mixChart) mixChart.destroy();
+  mixChart = new Chart(document.getElementById('mixChart'), {
+    type:'doughnut',
+    data:{ labels:mixLabels, datasets:[{ data:mixData, backgroundColor:mixColors, borderWidth:0, hoverOffset:6 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)+' ('+Math.round(ctx.raw/mixTotal*100)+'%)'}} } }
+  });
+  document.getElementById('mixLegend').innerHTML = mixLabels.map((l,i)=>
+    `<span class="legend-item"><span class="legend-dot" style="background:${mixColors[i]};"></span>${l} — ${Math.round(mixData[i]/mixTotal*100)}%</span>`
+  ).join('');
+
+  // BREAK-EVEN
+  const cmPerGroup  = totalGroup * (1 - royPct);
+  const fixedCosts  = d.rent + d.staff + d.mktg + d.util + d.ins + d.sup + d.misc + d.debt;
+  const beKids      = Math.ceil((fixedCosts - d.parties) / cmPerGroup / 30);
+  const beTotalHeads = Math.round(beKids * (1 + adultsPC));
+  document.getElementById('beMetrics').innerHTML = `
+    <div class="metric-card"><div class="m-label">Break-even children/day</div><div class="m-value">${beKids}</div></div>
+    <div class="metric-card"><div class="m-label">Total people at B/E</div><div class="m-value">${beTotalHeads}</div></div>
+    <div class="metric-card"><div class="m-label">Revenue per child group</div><div class="m-value">${fmt(totalGroup)}</div></div>
+    <div class="metric-card"><div class="m-label">Fixed costs/mo</div><div class="m-value">${fmt(fixedCosts)}</div></div>
+    <div class="metric-card"><div class="m-label">Party room cushion/mo</div><div class="m-value pos">${fmt(d.parties)}</div></div>
+    <div class="metric-card"><div class="m-label">Socks cushion at B/E</div><div class="m-value pos">${fmt(beTotalHeads*3*sRate*30)}</div></div>
+  `;
+  const beLabel = beKids<=75?'well below the conservative scenario — strong day-one cushion':
+                  beKids<=100?'within the conservative range — achievable from opening day':
+                  beKids<=125?'at the moderate threshold — solid marketing ramp needed':'above moderate — aggressive growth plan required';
+  document.getElementById('beNote').innerHTML =
+    `Break-even is <strong>${beKids} children/day</strong> (${beTotalHeads} total people in-facility). That is ${beLabel}. Party rooms contribute a fixed <strong>${fmt(d.parties)}/mo</strong> cushion regardless of walk-in volume. The Maui Braces referral pipeline is a structural demand driver most new locations don't have.`;
+}
+
+update();
+</script>
+</body>
+</html>
